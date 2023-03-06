@@ -177,7 +177,7 @@ const CONTRACT = new ethers.Contract(
 	abi,
 	WALLET
 );
-let RIDDLE_3_ETH_MESSAGE_HASH = '';
+let RIDDLE_3_ETH_MESSAGE_HASH = '0x20a1626365cea00953c957fd02ddc4963990d404232d4e58acb66f46c59d9887';
 
 (async () => {
 	try {
