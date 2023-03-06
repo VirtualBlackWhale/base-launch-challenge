@@ -1,113 +1,6 @@
 import { ethers } from 'ethers';
 
 const abi = [
-	{ inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
-	{
-		anonymous: false,
-		inputs: [
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'previousOwner',
-				type: 'address',
-			},
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'newOwner',
-				type: 'address',
-			},
-		],
-		name: 'OwnershipTransferred',
-		type: 'event',
-	},
-	{
-		inputs: [],
-		name: 'close',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'address', name: '', type: 'address' }],
-		name: 'finishingTimes',
-		outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'getLeaderboardStats',
-		outputs: [
-			{ internalType: 'address[]', name: '', type: 'address[]' },
-			{ internalType: 'uint256[]', name: '', type: 'uint256[]' },
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'address', name: 'user', type: 'address' }],
-		name: 'hasSolvedChallenge1',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'address', name: 'user', type: 'address' }],
-		name: 'hasSolvedChallenge2',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'address', name: 'user', type: 'address' }],
-		name: 'isOnLeaderboard',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'isOpenFlag',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-		name: 'leaderboard',
-		outputs: [{ internalType: 'address', name: '', type: 'address' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'open',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'owner',
-		outputs: [{ internalType: 'address', name: '', type: 'address' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'address', name: '', type: 'address' }],
-		name: 'previousSignature',
-		outputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'renounceOwnership',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
 	{
 		inputs: [{ internalType: 'string', name: 'riddleAnswer', type: 'string' }],
 		name: 'solveChallenge1',
@@ -136,34 +29,6 @@ const abi = [
 		stateMutability: 'nonpayable',
 		type: 'function',
 	},
-	{
-		inputs: [{ internalType: 'address', name: '', type: 'address' }],
-		name: 'solvedChallenge1',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'address', name: '', type: 'address' }],
-		name: 'solvedChallenge2',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
-		name: 'transferOwnership',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'address', name: '', type: 'address' }],
-		name: 'userWhoUsedSigner',
-		outputs: [{ internalType: 'address', name: '', type: 'address' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
 ];
 
 const PROVIDER = new ethers.providers.JsonRpcProvider(
@@ -181,6 +46,8 @@ let RIDDLE_3_ETH_MESSAGE_HASH = '0x20a1626365cea00953c957fd02ddc4963990d404232d4
 
 (async () => {
 	try {
+		console.log('challenge accepted');
+		
 		await (await CONTRACT.solveChallenge1('faucet')).wait();
 
 		const hash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('The Merge'));
@@ -199,6 +66,8 @@ let RIDDLE_3_ETH_MESSAGE_HASH = '0x20a1626365cea00953c957fd02ddc4963990d404232d4
 		await (
 			await CONTRACT.solveChallenge3('EIP-4844', recoverAddress, randomSig)
 		).wait();
+		
+		console.log('challenge fulfilled');
 	} catch (error) {
 		console.error(error);
 	}
